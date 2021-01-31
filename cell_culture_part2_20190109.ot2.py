@@ -31,7 +31,7 @@ m10 = instruments.P10_Multi(
     tip_racks=tipracks)
 m10.set_flow_rate(aspirate=10, dispense=200)
 m10.plunger_positions['blow_out'] += 0.5
-m10.pick_up_tip(presses=5, increment=0.5) 
+m10.pick_up_tip(presses=5, increment=0.5)
 m10.set_pick_up_current(0.5)
 
 def run_custom_protocol(
@@ -39,8 +39,8 @@ def run_custom_protocol(
         control_volume: float=5,
         control_column: str=1,
         number_of_destination_plates: int=4):
-    
-    
+
+
     for plate_num in range(number_of_destination_plates):
 
         # transfer samples
@@ -57,7 +57,7 @@ def run_custom_protocol(
                     m10.blow_out(dest)
                     m10.touch_tip()
                     m10.drop_tip()
-       
+
         # transfer controls
         ctrl_1 = [well for well in control_1.cols(control_column)[:2]]
         ctrl_2 = [well for well in control_2.cols(control_column)[:2]]
@@ -76,19 +76,18 @@ def run_custom_protocol(
                 m10.blow_out()
                 m10.touch_tip()
                 m10.drop_tip()
-                
+
         for source, dests in zip(ctrl_2, ctrl_2_dest):
             for dest in dests:
                 m10.pick_up_tip()
                 m10.mix(1, 10)
-                m10.transfer(control_volume, source.bottom(0.5), dest.top(-4), new_tip='never')        
+                m10.transfer(control_volume, source.bottom(0.5), dest.top(-4), new_tip='never')
                 m10.blow_out()
                 m10.touch_tip()
                 m10.drop_tip()
 
         if not plate_num == (number_of_destination_plates-1):
-            robot.pause("Put a new plate in slot 2 and refill all of the \
-tipracks.")
+            robot.pause("Put a new plate in slot 2 and refill all of the tipracks.")
             m10.reset_tip_tracking()
 
 
